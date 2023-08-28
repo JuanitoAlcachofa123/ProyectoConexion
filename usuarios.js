@@ -43,4 +43,41 @@ router.get('/usuarios', (req, res) => {
     });
 });
 
+// Endpoint para actualizar un usuario por ID
+router.put('/usuarios/:idUsuario', (req, res) => {
+    const idUsuario = req.params.idUsuario;
+    const datosActualizados = req.body;
+
+    let sql = 'UPDATE Usuarios SET ? WHERE IDUsuario = ?';
+    
+    conexion.query(sql, [datosActualizados, idUsuario], (err, result) => {
+        if (err) {
+            console.log(err.message);
+            res.json({ mensaje: 'Error al actualizar el usuario' });
+        } else {
+            res.json({ mensaje: 'Usuario actualizado exitosamente' });
+        }
+    });
+});
+
+// Endpoint para eliminar un usuario por ID
+router.delete('/usuarios/:idUsuario', (req, res) => {
+    const idUsuario = req.params.idUsuario;
+
+    let sql = 'DELETE FROM Usuarios WHERE IDUsuario = ?';
+    
+    conexion.query(sql, [idUsuario], (err, result) => {
+        if (err) {
+            console.log(err.message);
+            res.json({ mensaje: 'No se puede eliminar usuarios' });
+        } else {
+            if (result.affectedRows === 0) {
+                res.json({ mensaje: 'Usuario no encontrado' });
+            } else {
+                res.json({ mensaje: 'Usuario eliminado exitosamente' });
+            }
+        }
+    });
+});
+
 module.exports = router;
