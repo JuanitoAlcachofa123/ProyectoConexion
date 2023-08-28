@@ -45,4 +45,45 @@ router.get('/intercambios', (req, res) => {
     });
 });
 
+// Endpoint para eliminar un intercambio por ID
+router.delete('/intercambios/:idIntercambio', (req, res) => {
+    const idIntercambio = req.params.idIntercambio;
+
+    let sql = 'DELETE FROM Intercambios WHERE IDIntercambio = ?';
+    
+    conexion.query(sql, [idIntercambio], (err, result) => {
+        if (err) {
+            console.log(err.message);
+            res.json({ mensaje: 'Error al eliminar el intercambio' });
+        } else {
+            if (result.affectedRows === 0) {
+                res.json({ mensaje: 'Intercambio no encontrado' });
+            } else {
+                res.json({ mensaje: 'Intercambio eliminado exitosamente' });
+            }
+        }
+    });
+});
+
+// Endpoint para actualizar un intercambio por ID
+router.put('/intercambios/:idIntercambio', (req, res) => {
+    const idIntercambio = req.params.idIntercambio;
+    const datosActualizados = req.body;
+
+    let sql = 'UPDATE Intercambios SET ? WHERE IDIntercambio = ?';
+    
+    conexion.query(sql, [datosActualizados, idIntercambio], (err, result) => {
+        if (err) {
+            console.log(err.message);
+            res.json({ mensaje: 'Error al actualizar el intercambio' });
+        } else {
+            if (result.affectedRows === 0) {
+                res.json({ mensaje: 'Intercambio no encontrado' });
+            } else {
+                res.json({ mensaje: 'Intercambio actualizado exitosamente' });
+            }
+        }
+    });
+});
+
 module.exports = router;
