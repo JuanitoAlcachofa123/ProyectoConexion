@@ -37,9 +37,9 @@ router.get('/usuarioHabilidad', (req, res) => {
 router.put('/usuarioHabilidad/:idUsuario/:idHabilidad', (req, res) => {
     const idUsuario = req.params.idUsuario;
     const idHabilidad = req.params.idHabilidad;
-    const nuevaDescripcion = req.body.descripcionUsuarioHabilidad;
+    const nuevaDescripcion = req.body.Descripcion;
 
-    let sql = 'UPDATE UsuarioHabilidad SET descripcionUsuarioHabilidad = ? WHERE IDUsuario = ? AND IDHabilidad = ?';
+    let sql = 'UPDATE UsuarioHabilidad SET Descripcion = ? WHERE IDUsuario = ? AND IDHabilidad = ?';
     
     conexion.query(sql, [nuevaDescripcion, idUsuario, idHabilidad], (err, result) => {
         if (err) {
